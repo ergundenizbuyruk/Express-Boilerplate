@@ -8,21 +8,23 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  name     String
-  surname  String
-  password String
-  posts    Post[]
+  id        Int    @id @default(autoincrement())
+  email     String @unique
+  firstname String
+  surname   String
+  password  String
+  roles     Role[] @relation("UserRoles")
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String
-  published Boolean @default(false)
-  authorId  Int
-  author    User    @relation(fields: [authorId], references: [id])
+model Role {
+  id          Int          @id @default(autoincrement())
+  name        String
+  permissions Permission[] @relation("RolePermissions")
+  users       User[]       @relation("UserRoles")
+}
 
-  @@index([authorId], map: "Post_authorId_fkey")
+model Permission {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  roles Role[] @relation("RolePermissions")
 }

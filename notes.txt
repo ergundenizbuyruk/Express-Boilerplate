@@ -1,0 +1,7 @@
+create a migration
+
+npx prisma migrate dev --create-only --name <Migration_Name>
+
+
+apply migrations
+npx prisma migrate dev deploy
