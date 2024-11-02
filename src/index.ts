@@ -6,14 +6,16 @@ import roleRouter from "./routes/role-router";
 import authRouter from "./routes/auth-router";
 import { userSession } from "./middlewares/user-session";
 import { syncPermissions } from "./seed/synv-permission";
+import seedAdminUserAndRole from "./seed/role-and-user-seed";
 
 const app = express();
 const port = process.env.PORT || 3000;
-const isSyncPermission = process.env.SYNC_PERMISSIONS === "true";
+const seedData = process.env.SEED_DATA === "true";
 
 async function main() {
-  if (isSyncPermission) {
+  if (seedData) {
     await syncPermissions();
+    await seedAdminUserAndRole();
   }
 
   app.listen(port, () => {
