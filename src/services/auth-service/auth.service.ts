@@ -1,4 +1,4 @@
-import { prisma } from "../../index.js";
+import { prisma } from "../../index";
 import {
   errorResponse,
   ResponseDto,
@@ -7,8 +7,12 @@ import {
 import { UserSession } from "../../models/user-session.js";
 import { Permission } from "../../types/permission.js";
 import { signToken } from "../../utils/jwt.js";
-import { UserDto } from "../user-service/user.dto.js";
-import { LoginDto, LoginResponseDto, RegisterDto } from "./auth.dto.js";
+import {
+  LoginDto,
+  LoginResponseDto,
+  RegisterDto,
+  UserDto,
+} from "./auth.dto.js";
 
 const login = async (
   loginDto: LoginDto

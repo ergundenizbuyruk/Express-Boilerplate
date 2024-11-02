@@ -63,6 +63,7 @@ const update = async (
     data: {
       ...updateDto,
       permissions: {
+        set: [],
         connect: updateDto.permissions.map((p) => ({
           id: p,
         })),
