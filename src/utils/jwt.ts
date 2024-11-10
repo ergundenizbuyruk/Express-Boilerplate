@@ -1,5 +1,5 @@
 import jwt, { SignOptions } from "jsonwebtoken";
-import { UserSession } from "../models/user-session";
+import { UserSession } from "../models/user-session.dto";
 
 const secretKey = process.env.JWT_SECRET_KEY || "my-secret-key";
 

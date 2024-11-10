@@ -1,4 +1,4 @@
-import { UserSession } from "../models/user-session";
+import { UserSession } from "../models/user-session.dto";
 
 declare global {
   namespace Express {

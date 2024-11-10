@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 
-export const validateRoleCreate = [
+const validateRoleCreate = [
   body("name").isString().notEmpty().withMessage("Name must be a string"),
   body("permissions")
     .isArray()
@@ -8,7 +8,7 @@ export const validateRoleCreate = [
     .withMessage("Permissions must be an array"),
 ];
 
-export const validateRoleUpdate = [
+const validateRoleUpdate = [
   body("name").isString().notEmpty().withMessage("Name must be a string"),
   body("permissions")
     .isArray()

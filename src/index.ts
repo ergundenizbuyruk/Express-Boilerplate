@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 import roleRouter from "./routes/role-router";
 import authRouter from "./routes/auth-router";
 import { userSession } from "./middlewares/user-session";
-import { syncPermissions } from "./seed/synv-permission";
+import { syncPermissions } from "./seed/sync-permission";
 import seedAdminUserAndRole from "./seed/role-and-user-seed";
 
 const app = express();

@@ -1,6 +1,5 @@
-import { PrismaClient } from "@prisma/client";
 import { Permission } from "../types/permission";
-import { prisma } from "../index.js";
+import { prisma } from "../index";
 
 export async function syncPermissions() {
   const enumPermissions = Object.entries(Permission)

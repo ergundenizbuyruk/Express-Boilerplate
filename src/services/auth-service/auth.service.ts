@@ -4,7 +4,7 @@ import {
   ResponseDto,
   successResponse,
 } from "../../models/response.dto.js";
-import { UserSession } from "../../models/user-session.js";
+import { UserSession } from "../../models/user-session.dto.js";
 import { Permission } from "../../types/permission.js";
 import { signToken } from "../../utils/jwt.js";
 import {

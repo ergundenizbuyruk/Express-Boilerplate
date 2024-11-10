@@ -6,8 +6,8 @@ import { Permission } from "../types/permission";
 
 const router = express.Router();
 
-router.get("/", authorize([Permission.ROLE_READ]), roleController.getAll);
-router.get("/:id", authorize([Permission.ROLE_READ]), roleController.get);
+router.get("/", authorize([Permission.ROLE_GETALL]), roleController.getAll);
+router.get("/:id", authorize([Permission.ROLE_GET]), roleController.get);
 router.post(
   "/",
   authorize([Permission.ROLE_CREATE]),

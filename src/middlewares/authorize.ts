@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { errorResponse } from "../models/response.dto";
-import { UserSession } from "../models/user-session";
+import { UserSession } from "../models/user-session.dto";
 import { Permission } from "../types/permission";
 
 export const authorize = (requiredPermissions: Permission[]) => {
