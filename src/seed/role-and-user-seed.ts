@@ -1,4 +1,5 @@
 import { prisma } from "../index";
+import bcrypt from "bcrypt";
 
 const seedAdminUserAndRole = async () => {
   const adminRoleName = "Admin";
@@ -46,7 +47,7 @@ const seedAdminUserAndRole = async () => {
         firstname: adminUserName,
         surname: adminUserName,
         email: adminEmail,
-        password: adminPassword,
+        password: bcrypt.hashSync(adminPassword, 10),
         roles: { connect: { id: adminRoleId } },
       },
     });
