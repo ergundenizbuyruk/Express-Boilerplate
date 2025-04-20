@@ -1,22 +1,19 @@
-import { body } from "express-validator";
+import Joi from "joi";
 
-const validateRoleCreate = [
-  body("name").isString().notEmpty().withMessage("Name must be a string"),
-  body("permissions")
-    .isArray()
-    .notEmpty()
-    .withMessage("Permissions must be an array"),
-];
+export const roleCreateSchema = Joi.object({
+  name: Joi.string().required(),
+  permissions: Joi.array().items(Joi.string()).required().min(1).messages({
+    "array.min": "At least one permission is required",
+    "array.base": "Permissions must be an array",
+    "string.base": "Each permission must be a string",
+  }),
+});
 
-const validateRoleUpdate = [
-  body("name").isString().notEmpty().withMessage("Name must be a string"),
-  body("permissions")
-    .isArray()
-    .notEmpty()
-    .withMessage("Permissions must be an array"),
-];
-
-export default {
-  validateRoleCreate,
-  validateRoleUpdate,
-};
+export const roleUpdateSchema = Joi.object({
+  name: Joi.string().required(),
+  permissions: Joi.array().items(Joi.string()).required().min(1).messages({
+    "array.min": "At least one permission is required",
+    "array.base": "Permissions must be an array",
+    "string.base": "Each permission must be a string",
+  }),
+});

@@ -1,8 +1,12 @@
 import express from "express";
 import roleController from "../controllers/role-controller";
-import roleValidator from "../services/role-service/role.validator";
+import {
+  roleCreateSchema,
+  roleUpdateSchema,
+} from "../services/role-service/role.validator";
 import { authorize } from "../middlewares/authorize";
 import { Permission } from "../types/permission";
+import { validate } from "../middlewares/validate";
 
 const router = express.Router();
 
@@ -11,13 +15,13 @@ router.get("/:id", authorize([Permission.ROLE_GET]), roleController.get);
 router.post(
   "/",
   authorize([Permission.ROLE_CREATE]),
-  roleValidator.validateRoleCreate,
+  validate(roleCreateSchema),
   roleController.create
 );
 router.put(
   "/:id",
   authorize([Permission.ROLE_UPDATE]),
-  roleValidator.validateRoleUpdate,
+  validate(roleUpdateSchema),
   roleController.update
 );
 router.delete(

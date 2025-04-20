@@ -6,13 +6,18 @@ import {
 } from "../../models/response.dto.js";
 import { UserSession } from "../../models/user-session.dto.js";
 import { Permission } from "../../types/permission.js";
-import { signToken } from "../../utils/jwt.js";
+import {
+  jwtExpiresIn,
+  refreshTokenexpiresIn,
+  signToken,
+} from "../../utils/jwt.js";
 import {
   LoginDto,
   LoginResponseDto,
   RegisterDto,
   UserDto,
 } from "./auth.dto.js";
+import bcrypt from "bcrypt";
 
 const login = async (
   loginDto: LoginDto
@@ -27,11 +32,13 @@ const login = async (
   });
 
   if (!user) {
-    return errorResponse(["User not found"], 404);
+    return errorResponse(["Invalid password or email"], 400);
   }
 
-  if (user.password !== loginDto.password) {
-    return errorResponse(["Invalid password"], 400);
+  const verifyRes = await verifyPassword(loginDto.password, user.password);
+
+  if (!verifyRes) {
+    return errorResponse(["Invalid password or email"], 400);
   }
 
   const userSession: UserSession = {
@@ -51,8 +58,8 @@ const login = async (
   const loginResponse: LoginResponseDto = {
     accessToken,
     refreshToken,
-    accessTokenExpiresDate: new Date(Date.now() + 60 * 60 * 1000),
-    refreshTokenExpiresDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    accessTokenExpiresDate: new Date(Date.now() + jwtExpiresIn),
+    refreshTokenExpiresDate: new Date(Date.now() + refreshTokenexpiresIn),
   };
 
   return successResponse(loginResponse, 200);
@@ -62,7 +69,7 @@ const register = async (
   createDto: RegisterDto
 ): Promise<ResponseDto<UserDto>> => {
   const userFromdb = await prisma.user.create({
-    data: { ...createDto },
+    data: { ...createDto, password: bcrypt.hashSync(createDto.password, 10) },
     include: {
       roles: {
         include: { permissions: true },
@@ -72,6 +79,13 @@ const register = async (
   const userDto: UserDto = { ...userFromdb };
   return successResponse(userDto, 201);
 };
+
+async function verifyPassword(
+  password: string,
+  hashedPassword: string
+): Promise<boolean> {
+  return await bcrypt.compare(password, hashedPassword);
+}
 
 export default {
   login,
