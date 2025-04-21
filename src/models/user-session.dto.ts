@@ -1,7 +1,7 @@
 import { Permission } from "../types/permission";
 
 export interface UserSession {
-  id: number;
+  id: string;
   email: string;
   permissions: Permission[];
   roles: string[];

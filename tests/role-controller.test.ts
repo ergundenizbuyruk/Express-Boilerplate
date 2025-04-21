@@ -4,6 +4,7 @@ import app from "../src/app";
 import jwt from "jsonwebtoken";
 import { UserSession } from "../src/models/user-session.dto";
 import { Permission } from "../src/types/permission";
+import { randomUUID } from "crypto";
 const secretKey = process.env.JWT_SECRET_KEY || "my-secret-key";
 
 describe("GET /", () => {
@@ -29,7 +30,7 @@ describe("GET /api/roles", () => {
 
   it("should deny access without required permission", async () => {
     const payload: UserSession = {
-      id: 1,
+      id: randomUUID(),
       email: "",
       permissions: [Permission.ROLE_CREATE],
       roles: ["admin"],
@@ -45,7 +46,7 @@ describe("GET /api/roles", () => {
 
   it("should access access with required permission", async () => {
     const payload: UserSession = {
-      id: 1,
+      id: randomUUID(),
       email: "",
       permissions: [Permission.ROLE_GETALL],
       roles: ["admin"],

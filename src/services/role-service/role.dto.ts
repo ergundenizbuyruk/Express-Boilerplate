@@ -1,7 +1,7 @@
 import { Permission } from "../../types/permission";
 
 export interface RoleDto {
-  id: number;
+  id: string;
   name: string;
   permissions: PermissionDto[];
 }

@@ -16,7 +16,7 @@ const getAll = async (): Promise<ResponseDto<RoleDto[]>> => {
   return successResponse(roleDtos, 200);
 };
 
-const get = async (id: number): Promise<ResponseDto<RoleDto>> => {
+const get = async (id: string): Promise<ResponseDto<RoleDto>> => {
   const role = await prisma.role.findUnique({
     where: { id: id },
     include: { permissions: true },
@@ -49,7 +49,7 @@ const create = async (
 };
 
 const update = async (
-  id: number,
+  id: string,
   updateDto: RoleUpdateDto
 ): Promise<ResponseDto<RoleDto>> => {
   const role = await prisma.role.findUnique({ where: { id: id } });
@@ -76,7 +76,7 @@ const update = async (
   return successResponse(roleDto, 200);
 };
 
-const remove = async (id: number): Promise<ResponseDto<null>> => {
+const remove = async (id: string): Promise<ResponseDto<null>> => {
   const role = await prisma.role.findUnique({ where: { id: id } });
 
   if (!role) {

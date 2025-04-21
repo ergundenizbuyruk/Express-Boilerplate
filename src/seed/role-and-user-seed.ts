@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { prisma } from "../app";
 import bcrypt from "bcrypt";
 
@@ -6,8 +7,8 @@ const seedAdminUserAndRole = async () => {
   const adminUserName = "Admin";
   const adminEmail = "admin@admin.com";
   const adminPassword = "adminPass123";
-  const adminUserId = 1;
-  const adminRoleId = 1;
+  const adminUserId = randomUUID();
+  const adminRoleId = randomUUID();
 
   const allPermissions = await prisma.permission.findMany();
 

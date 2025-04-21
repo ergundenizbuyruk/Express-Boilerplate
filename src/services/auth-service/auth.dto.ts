@@ -28,7 +28,7 @@ export interface RevokeRefreshTokenDto {
 }
 
 export interface UserDto {
-  id: number;
+  id: string;
   firstname: string;
   surname: string;
   email: string;
