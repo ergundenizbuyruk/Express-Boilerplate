@@ -1,4 +1,4 @@
-import { prisma } from "../index";
+import { prisma } from "../app";
 import bcrypt from "bcrypt";
 
 const seedAdminUserAndRole = async () => {

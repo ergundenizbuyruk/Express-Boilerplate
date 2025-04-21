@@ -1,12 +1,13 @@
 {
   "name": "express-demo",
   "version": "1.0.0",
-  "main": "src/index.ts",
+  "main": "src/server.ts",
   "private": true,
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js",
-    "start:dev": "tsx watch src/index.ts",
+    "start": "node dist/server.js",
+    "start:dev": "tsx watch src/server.ts",
+    "test": "jest",
     "swagger": "tsx src/swagger/swagger.ts"
   },
   "dependencies": {
@@ -22,9 +23,13 @@
     "@types/express": "5.0.0",
     "@types/jsonwebtoken": "9.0.7",
     "@types/node": "22.7.8",
+    "@types/supertest": "6.0.3",
     "@types/swagger-ui-express": "4.1.6",
+    "jest": "29.7.0",
     "prisma": "5.21.1",
+    "supertest": "7.1.0",
     "swagger-autogen": "2.23.7",
+    "ts-jest": "29.3.2",
     "tsx": "4.19.1",
     "typescript": "5.6.3"
   }

@@ -1,22 +1,22 @@
-import { prisma } from "../../index";
+import { prisma } from "../../app";
 import {
   errorResponse,
   ResponseDto,
   successResponse,
-} from "../../models/response.dto.js";
-import { UserSession } from "../../models/user-session.dto.js";
-import { Permission } from "../../types/permission.js";
+} from "../../models/response.dto";
+import { UserSession } from "../../models/user-session.dto";
+import { Permission } from "../../types/permission";
 import {
   jwtExpiresIn,
   refreshTokenexpiresIn,
   signToken,
-} from "../../utils/jwt.js";
+} from "../../utils/jwt";
 import {
   LoginDto,
   LoginResponseDto,
   RegisterDto,
   UserDto,
-} from "./auth.dto.js";
+} from "./auth.dto";
 import bcrypt from "bcrypt";
 
 const login = async (

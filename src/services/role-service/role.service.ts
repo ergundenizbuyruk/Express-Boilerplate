@@ -1,10 +1,10 @@
-import { RoleCreateDto, RoleUpdateDto, RoleDto } from "./role.dto.js";
-import { prisma } from "../../index.js";
+import { RoleCreateDto, RoleUpdateDto, RoleDto } from "./role.dto";
+import { prisma } from "../../app";
 import {
   errorResponse,
   ResponseDto,
   successResponse,
-} from "../../models/response.dto.js";
+} from "../../models/response.dto";
 
 const getAll = async (): Promise<ResponseDto<RoleDto[]>> => {
   const roles = await prisma.role.findMany({
