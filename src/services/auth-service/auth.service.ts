@@ -11,7 +11,13 @@ import {
   refreshTokenexpiresIn,
   signToken,
 } from "../../utils/jwt";
-import { LoginDto, LoginResponseDto, RegisterDto, UserDto } from "./auth.dto";
+import {
+  LoginDto,
+  LoginResponseDto,
+  LoginWithRefreshTokenDto,
+  RegisterDto,
+  UserDto,
+} from "./auth.dto";
 import bcrypt from "bcrypt";
 
 const login = async (
@@ -49,15 +55,101 @@ const login = async (
 
   const accessToken = signToken(userSession);
   const refreshToken = crypto.randomUUID();
+  const now = Date.now();
+
+  await prisma.userRefreshToken.create({
+    data: {
+      token: refreshToken,
+      userId: user.id,
+      expiresAt: new Date(now + refreshTokenexpiresIn),
+    },
+  });
 
   const loginResponse: LoginResponseDto = {
     accessToken,
     refreshToken,
-    accessTokenExpiresDate: new Date(Date.now() + jwtExpiresIn),
-    refreshTokenExpiresDate: new Date(Date.now() + refreshTokenexpiresIn),
+    accessTokenExpiresDate: new Date(now + jwtExpiresIn),
+    refreshTokenExpiresDate: new Date(now + refreshTokenexpiresIn),
   };
 
   return successResponse(loginResponse, 200);
+};
+
+const loginWithRefreshToken = async (
+  loginWithRefreshDto: LoginWithRefreshTokenDto
+): Promise<ResponseDto<LoginResponseDto>> => {
+  const refreshToken = await prisma.userRefreshToken.findUnique({
+    where: { token: loginWithRefreshDto.refreshToken },
+    include: {
+      user: {
+        include: {
+          roles: {
+            include: { permissions: true },
+          },
+        },
+      },
+    },
+  });
+
+  if (!refreshToken) {
+    return errorResponse(["Invalid refresh token"], 400);
+  }
+
+  if (refreshToken.expiresAt < new Date()) {
+    return errorResponse(["Refresh token expired"], 400);
+  }
+
+  const userSession: UserSession = {
+    id: refreshToken.user.id,
+    email: refreshToken.user.email,
+    roles: refreshToken.user.roles.map((r) => r.name),
+    permissions: [
+      ...new Set(
+        refreshToken.user.roles.flatMap((r) =>
+          r.permissions.map((p) => p.id as Permission)
+        )
+      ),
+    ],
+  };
+
+  const accessToken = signToken(userSession);
+  const newRefreshToken = crypto.randomUUID();
+  const now = Date.now();
+
+  await prisma.userRefreshToken.update({
+    where: { id: refreshToken.id },
+    data: {
+      token: newRefreshToken,
+      expiresAt: new Date(now + refreshTokenexpiresIn),
+    },
+  });
+
+  const loginResponse: LoginResponseDto = {
+    accessToken,
+    refreshToken: newRefreshToken,
+    accessTokenExpiresDate: new Date(now + jwtExpiresIn),
+    refreshTokenExpiresDate: new Date(now + refreshTokenexpiresIn),
+  };
+
+  return successResponse(loginResponse, 200);
+};
+
+const revokeRefreshToken = async (
+  revokeRefreshTokenDto: LoginWithRefreshTokenDto
+): Promise<ResponseDto<string>> => {
+  const refreshToken = await prisma.userRefreshToken.findUnique({
+    where: { token: revokeRefreshTokenDto.refreshToken },
+  });
+
+  if (!refreshToken) {
+    return errorResponse(["Invalid refresh token"], 400);
+  }
+
+  await prisma.userRefreshToken.delete({
+    where: { token: revokeRefreshTokenDto.refreshToken },
+  });
+
+  return successResponse("Refresh token revoked successfully", 200);
 };
 
 const register = async (
@@ -84,5 +176,7 @@ async function verifyPassword(
 
 export default {
   login,
+  loginWithRefreshToken,
+  revokeRefreshToken,
   register,
 };

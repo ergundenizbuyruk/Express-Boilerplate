@@ -5,6 +5,10 @@ export interface LoginDto {
   password: string;
 }
 
+export interface LoginWithRefreshTokenDto {
+  refreshToken: string;
+}
+
 export interface LoginResponseDto {
   accessToken: string;
   refreshToken: string;
