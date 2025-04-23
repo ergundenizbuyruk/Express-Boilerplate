@@ -11,12 +11,7 @@ import {
   refreshTokenexpiresIn,
   signToken,
 } from "../../utils/jwt";
-import {
-  LoginDto,
-  LoginResponseDto,
-  RegisterDto,
-  UserDto,
-} from "./auth.dto";
+import { LoginDto, LoginResponseDto, RegisterDto, UserDto } from "./auth.dto";
 import bcrypt from "bcrypt";
 
 const login = async (
