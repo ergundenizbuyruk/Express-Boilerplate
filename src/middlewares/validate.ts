@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ObjectSchema } from "joi";
+import { errorResponse } from "../models/response.dto";
 
 export const validate =
   (schema: ObjectSchema, property: "body" | "query" | "params" = "body") =>
@@ -7,14 +8,12 @@ export const validate =
     const { error } = schema.validate(req[property], { abortEarly: false });
 
     if (error) {
-      res.status(400).json({
-        status: "validation_error",
-        errors: error.details.map((detail) => ({
-          message: detail.message,
-          path: detail.path.join("."),
-        })),
-      });
+      const notValidResponse = errorResponse(
+        error.details.map((detail) => detail.message),
+        400
+      );
 
+      res.status(400).json(notValidResponse);
       return;
     }
 
