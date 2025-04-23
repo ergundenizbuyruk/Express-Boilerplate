@@ -19,6 +19,7 @@ app.get("/", (req: Request, res: Response) => {
   res.status(200).json(successResponse("Hello, world!", 200));
 });
 
+
 app.use("/api/auth", authRouter);
 app.use("/api/roles", roleRouter);
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
