@@ -38,3 +38,11 @@ model UserRefreshToken {
   createdAt DateTime @default(now())
   expiresAt DateTime
 }
+
+model ErrorLog {
+  id        String   @id @default(uuid())
+  level     String
+  message   String
+  meta      Json?
+  createdAt DateTime @default(now())
+}
