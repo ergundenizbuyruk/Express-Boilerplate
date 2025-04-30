@@ -34,7 +34,7 @@
 6. **Access the Application**:
     - Open your browser and navigate to `http://localhost:<PORT>` (default is `3000`).
 
-7. **Run Tests (if available)**:
+7. **Run Tests**:
     ```bash
     npm test
     ```
