@@ -75,7 +75,7 @@
     npx prisma migrate dev deploy
     ```
 
-5. **Start the Development Server**:
+5. **Start the Server**:
 
    ```bash
    npm run start:dev
