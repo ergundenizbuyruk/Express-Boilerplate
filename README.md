@@ -64,7 +64,7 @@
    ```bash
    npx prisma migrate dev deploy
    ```
-    - By default, migrations are produced for PostgreSQL. If you are using a different database, create a new migration using the command below:
+    - By default, migrations are produced for PostgreSQL. If you are using a different database, firstly remove the existing migrations folder and then run the command below to create a new migration:
 
     ```bash
     npx prisma migrate dev --create-only --name <Migration_Name>
