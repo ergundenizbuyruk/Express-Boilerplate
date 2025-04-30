@@ -43,7 +43,3 @@
 
 - **Database Configuration**: Ensure your database is running and the `DATABASE_URL` in the `.env` file is correctly configured.
 - **Extending the Project**: Add new routes, controllers, and services in the respective folders to extend functionality.
-- **Prisma Studio**: Use Prisma Studio to visualize and interact with your database:
-    ```bash
-    npx prisma studio
-    ```
