@@ -1,0 +1,31 @@
+services:
+  api:
+    build: .
+    container_name: express_boilerplate_api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: "postgresql://postgres:Local.Pass123@db:5432/express-boilerplate"
+      PORT: 3000
+      SEED_DATA: true
+      JWT_SECRET_KEY: "secret"
+      JWT_EXPIRES_MINUTE_TIME: 60
+      REFRESH_TOKEN_EXPIRES_MINUTE_TIME: 60
+
+  db:
+    image: postgres:17
+    container_name: express_boilerplate_postgres_db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Local.Pass123
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
