@@ -7,8 +7,9 @@ import authRouter from "./routes/auth-router";
 import { userSession } from "./middlewares/user-session";
 import { errorHandler } from "./middlewares/error-handler";
 import { HttpError } from "./utils/http-error";
-import { successResponse } from "./models/response.dto";
+import { errorResponse, successResponse } from "./models/response.dto";
 import cors, { CorsOptions } from "cors";
+import { rateLimit } from "express-rate-limit";
 
 const allowedOrigins = ["http://localhost:3000"];
 
@@ -26,12 +27,27 @@ const corsOptions: CorsOptions = {
   credentials: true,
 };
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  limit: 100,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  statusCode: 429,
+  handler: (req: Request, res: Response) => {
+    res
+      .status(429)
+      .json(errorResponse(["Too many requests, please try again later."], 429));
+  },
+});
+
 const app = express();
 export const prisma = new PrismaClient();
 
 app.use(express.json());
 
 app.use(cors(corsOptions));
+
+app.use(limiter);
 
 app.use(userSession);
 
