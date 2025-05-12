@@ -8,11 +8,31 @@ import { userSession } from "./middlewares/user-session";
 import { errorHandler } from "./middlewares/error-handler";
 import { HttpError } from "./utils/http-error";
 import { successResponse } from "./models/response.dto";
+import cors, { CorsOptions } from "cors";
+
+const allowedOrigins = ["http://localhost:3000"];
+
+const corsOptions: CorsOptions = {
+  origin: function (
+    origin: string | undefined,
+    callback: (err: Error | null, allow?: boolean) => void
+  ) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS policy violation"));
+    }
+  },
+  credentials: true,
+};
 
 const app = express();
 export const prisma = new PrismaClient();
 
 app.use(express.json());
+
+app.use(cors(corsOptions));
+
 app.use(userSession);
 
 app.get("/", (req: Request, res: Response) => {
