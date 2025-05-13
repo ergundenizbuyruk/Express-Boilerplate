@@ -1,3 +1,4 @@
+import { TFunction } from "i18next";
 import { prisma } from "../../app";
 import {
   errorResponse,
@@ -21,7 +22,8 @@ import {
 import bcrypt from "bcrypt";
 
 const login = async (
-  loginDto: LoginDto
+  loginDto: LoginDto,
+  t: TFunction
 ): Promise<ResponseDto<LoginResponseDto>> => {
   const user = await prisma.user.findUnique({
     where: { email: loginDto.email },
@@ -33,13 +35,13 @@ const login = async (
   });
 
   if (!user) {
-    return errorResponse(["Invalid password or email"], 400);
+    return errorResponse([t("invalid_password_or_email")], 400);
   }
 
   const verifyRes = await verifyPassword(loginDto.password, user.password);
 
   if (!verifyRes) {
-    return errorResponse(["Invalid password or email"], 400);
+    return errorResponse([t("invalid_password_or_email")], 400);
   }
 
   const userSession: UserSession = {
@@ -76,7 +78,8 @@ const login = async (
 };
 
 const loginWithRefreshToken = async (
-  loginWithRefreshDto: LoginWithRefreshTokenDto
+  loginWithRefreshDto: LoginWithRefreshTokenDto,
+  t: TFunction
 ): Promise<ResponseDto<LoginResponseDto>> => {
   const refreshToken = await prisma.userRefreshToken.findUnique({
     where: { token: loginWithRefreshDto.refreshToken },
@@ -92,11 +95,11 @@ const loginWithRefreshToken = async (
   });
 
   if (!refreshToken) {
-    return errorResponse(["Invalid refresh token"], 400);
+    return errorResponse([t("invalid_refresh_token")], 400);
   }
 
   if (refreshToken.expiresAt < new Date()) {
-    return errorResponse(["Refresh token expired"], 400);
+    return errorResponse([t("expired_refresh_token")], 400);
   }
 
   const userSession: UserSession = {
@@ -135,25 +138,27 @@ const loginWithRefreshToken = async (
 };
 
 const revokeRefreshToken = async (
-  revokeRefreshTokenDto: LoginWithRefreshTokenDto
+  revokeRefreshTokenDto: LoginWithRefreshTokenDto,
+  t: TFunction
 ): Promise<ResponseDto<string>> => {
   const refreshToken = await prisma.userRefreshToken.findUnique({
     where: { token: revokeRefreshTokenDto.refreshToken },
   });
 
   if (!refreshToken) {
-    return errorResponse(["Invalid refresh token"], 400);
+    return errorResponse([t("invalid_refresh_token")], 400);
   }
 
   await prisma.userRefreshToken.delete({
     where: { token: revokeRefreshTokenDto.refreshToken },
   });
 
-  return successResponse("Refresh token revoked successfully", 200);
+  return successResponse(t("refresh_token_revoked_successfully"), 200);
 };
 
 const register = async (
-  createDto: RegisterDto
+  createDto: RegisterDto,
+  t: TFunction
 ): Promise<ResponseDto<UserDto>> => {
   const userFromdb = await prisma.user.create({
     data: { ...createDto, password: bcrypt.hashSync(createDto.password, 10) },

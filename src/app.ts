@@ -10,6 +10,8 @@ import { HttpError } from "./utils/http-error";
 import { errorResponse, successResponse } from "./models/response.dto";
 import cors, { CorsOptions } from "cors";
 import { rateLimit } from "express-rate-limit";
+import i18nextMiddleware from "i18next-http-middleware";
+import i18n from "./i18n";
 
 const allowedOrigins = ["http://localhost:3000"];
 
@@ -34,9 +36,8 @@ const limiter = rateLimit({
   legacyHeaders: false,
   statusCode: 429,
   handler: (req: Request, res: Response) => {
-    res
-      .status(429)
-      .json(errorResponse(["Too many requests, please try again later."], 429));
+    const t = req.t;
+    res.status(429).json(errorResponse([t("too_many_requests")], 429));
   },
 });
 
@@ -45,6 +46,8 @@ export const prisma = new PrismaClient();
 
 app.use(express.json());
 
+app.use(i18nextMiddleware.handle(i18n));
+
 app.use(cors(corsOptions));
 
 app.use(limiter);
@@ -52,7 +55,8 @@ app.use(limiter);
 app.use(userSession);
 
 app.get("/", (req: Request, res: Response) => {
-  res.status(200).json(successResponse("Hello, world!", 200));
+  const t = req.t;
+  res.status(200).json(successResponse(t("hello_world"), 200));
 });
 
 app.use("/api/auth", authRouter);
@@ -60,7 +64,8 @@ app.use("/api/roles", roleRouter);
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((req: Request, res: Response, next: Function) => {
-  const err = new HttpError("Not Found", 404);
+  const t = req.t;
+  const err = new HttpError(t("not_found"), 404);
   next(err);
 });
 

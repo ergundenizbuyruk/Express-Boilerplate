@@ -5,8 +5,9 @@ import {
   ResponseDto,
   successResponse,
 } from "../../models/response.dto";
+import { TFunction } from "i18next";
 
-const getAll = async (): Promise<ResponseDto<RoleDto[]>> => {
+const getAll = async (t: TFunction): Promise<ResponseDto<RoleDto[]>> => {
   const roles = await prisma.role.findMany({
     include: {
       permissions: true,
@@ -16,14 +17,14 @@ const getAll = async (): Promise<ResponseDto<RoleDto[]>> => {
   return successResponse(roleDtos, 200);
 };
 
-const get = async (id: string): Promise<ResponseDto<RoleDto>> => {
+const get = async (id: string, t: TFunction): Promise<ResponseDto<RoleDto>> => {
   const role = await prisma.role.findUnique({
     where: { id: id },
     include: { permissions: true },
   });
 
   if (!role) {
-    return errorResponse(["User not found"], 404);
+    return errorResponse([t("user_not_found")], 404);
   }
 
   const roleDto: RoleDto = { ...role };
@@ -31,7 +32,8 @@ const get = async (id: string): Promise<ResponseDto<RoleDto>> => {
 };
 
 const create = async (
-  createDto: RoleCreateDto
+  createDto: RoleCreateDto,
+  t: TFunction
 ): Promise<ResponseDto<RoleDto>> => {
   const roleFromdb = await prisma.role.create({
     data: {
@@ -50,12 +52,13 @@ const create = async (
 
 const update = async (
   id: string,
-  updateDto: RoleUpdateDto
+  updateDto: RoleUpdateDto,
+  t: TFunction
 ): Promise<ResponseDto<RoleDto>> => {
   const role = await prisma.role.findUnique({ where: { id: id } });
 
   if (!role) {
-    return errorResponse(["Role not found"], 404);
+    return errorResponse([t("role_not_found")], 404);
   }
 
   const updatedRole = await prisma.role.update({
@@ -76,11 +79,11 @@ const update = async (
   return successResponse(roleDto, 200);
 };
 
-const remove = async (id: string): Promise<ResponseDto<null>> => {
+const remove = async (id: string, t: TFunction): Promise<ResponseDto<null>> => {
   const role = await prisma.role.findUnique({ where: { id: id } });
 
   if (!role) {
-    return errorResponse(["Role not found"], 404);
+    return errorResponse([t("role_not_found")], 404);
   }
 
   await prisma.role.delete({ where: { id: id } });

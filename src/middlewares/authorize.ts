@@ -5,10 +5,11 @@ import { Permission } from "../types/permission";
 
 export const authorize = (requiredPermissions: Permission[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
+    const t = req.t;
     const user = req.user as UserSession;
 
     if (!user) {
-      const response = errorResponse(["Unauthorized"], 401);
+      const response = errorResponse([t("unauthorized_message")], 401);
       res.status(401).json(response);
       return;
     }
@@ -23,7 +24,7 @@ export const authorize = (requiredPermissions: Permission[]) => {
     );
 
     if (!hasPermission) {
-      const response = errorResponse(["Forbidden"], 403);
+      const response = errorResponse([t("forbidden_message")], 403);
       res.status(403).json(response);
       return;
     }

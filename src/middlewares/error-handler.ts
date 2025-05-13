@@ -8,10 +8,10 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.error(err.stack);
+  const t = req.t;
 
   const status = err.status || 500;
-  const message = err.message || "Internal Server Error";
+  const message = err.message || t("internal_server_error");
 
   const errResponse = errorResponse([message], status);
 
@@ -24,6 +24,6 @@ export const errorHandler = (
       body: req.body,
     },
   });
-  
+
   res.status(status).json(errResponse);
 };
