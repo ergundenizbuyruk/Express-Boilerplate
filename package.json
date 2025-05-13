@@ -1,5 +1,5 @@
 {
-  "name": "express-demo",
+  "name": "express-boilerplate",
   "version": "1.0.0",
   "main": "src/server.ts",
   "private": true,
@@ -20,10 +20,10 @@
     "i18next": "25.1.2",
     "i18next-fs-backend": "2.6.0",
     "i18next-http-middleware": "3.7.4",
-    "joi": "17.13.3",
     "jsonwebtoken": "9.0.2",
     "swagger-ui-express": "5.0.1",
-    "winston": "3.17.0"
+    "winston": "3.17.0",
+    "zod": "3.24.4"
   },
   "devDependencies": {
     "@types/bcrypt": "5.0.2",

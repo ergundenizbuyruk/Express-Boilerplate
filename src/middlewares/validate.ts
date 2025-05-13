@@ -1,16 +1,17 @@
 import { Request, Response, NextFunction } from "express";
-import { ObjectSchema } from "joi";
 import { errorResponse } from "../models/response.dto";
+import { ZodSchema } from "zod";
 
 export const validate =
-  (schema: ObjectSchema, property: "body" | "query" | "params" = "body") =>
+  (schema: ZodSchema<any>, property: "body" | "query" | "params" = "body") =>
   (req: Request, res: Response, next: NextFunction) => {
     const t = req.t;
-    const { error } = schema.validate(req[property], { abortEarly: false });
 
-    if (error) {
+    const result = schema.safeParse(req[property]);
+
+    if (!result.success) {
       const notValidResponse = errorResponse(
-        error.details.map((detail) => t(detail.message)),
+        result.error.errors.map((error) => t(error.message)),
         400
       );
 

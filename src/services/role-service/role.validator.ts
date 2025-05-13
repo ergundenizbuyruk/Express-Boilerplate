@@ -1,21 +1,24 @@
-import Joi from "joi";
+import { z } from "zod";
 
-export const roleCreateSchema = Joi.object({
-  name: Joi.string().required(),
-  permissions: Joi.array().items(Joi.number()).required().min(1).messages({
-    "array.min": "at_least_one_permission_is_required",
-    "array.base": "permission_must_be_an_array",
-    "number.base": "each_permission_must_be_a_number",
-    "any.required": "permissions_required",
+const permissionsSchema = z
+  .array(z.number({ invalid_type_error: "each_permission_must_be_a_number" }), {
+    invalid_type_error: "permission_must_be_an_array",
+    required_error: "permissions_required",
+  })
+  .min(1, { message: "at_least_one_permission_is_required" });
+
+export const roleCreateSchema = z.object({
+  name: z.string({
+    required_error: "name_is_required",
+    invalid_type_error: "name_is_required",
   }),
+  permissions: permissionsSchema,
 });
 
-export const roleUpdateSchema = Joi.object({
-  name: Joi.string().required(),
-  permissions: Joi.array().items(Joi.number()).required().min(1).messages({
-    "array.min": "at_least_one_permission_is_required",
-    "array.base": "permission_must_be_an_array",
-    "number.base": "each_permission_must_be_a_number",
-    "any.required": "permissions_required",
+export const roleUpdateSchema = z.object({
+  name: z.string({
+    required_error: "refresh_token_is_required",
+    invalid_type_error: "refresh_token_is_required",
   }),
+  permissions: permissionsSchema,
 });

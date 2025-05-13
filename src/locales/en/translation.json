@@ -10,6 +10,7 @@
     "password_is_min_6_characters": "Password must be at least 6 characters",
     "password_is_required": "Password is required",
     "refresh_token_is_required": "Refresh token is required",
+    "name_is_required": "Name is required",
     "at_least_one_permission_is_required": "At least one permission is required",
     "permission_must_be_an_array": "Permission must be an array",
     "each_permission_must_be_a_number": "Each permission must be a number",

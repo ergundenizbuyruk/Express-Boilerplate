@@ -10,6 +10,7 @@
     "password_is_min_6_characters": "Parola en az 6 karakter olmalıdır",
     "password_is_required": "Parola gereklidir",
     "refresh_token_is_required": "Yenileme anahtarı gereklidir",
+    "name_is_required": "İsim gereklidir",
     "at_least_one_permission_is_required": "En az bir izin gereklidir",
     "permission_must_be_an_array": "Izin bir dizi olmalıdır",
     "each_permission_must_be_a_number": "Her izin bir sayı olmalıdır",

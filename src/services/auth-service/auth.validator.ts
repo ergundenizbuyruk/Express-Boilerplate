@@ -1,45 +1,64 @@
-import Joi from "joi";
+import { z } from "zod";
 
-export const registerSchema = Joi.object({
-  firstname: Joi.string().required().empty().messages({
-    "any.required": "firstname_is_required",
-    "string.empty": "firstname_is_required",
-  }),
-  surname: Joi.string().required().empty().messages({
-    "string.empty": "surname_is_required",
-    "any.required": "surname_is_required",
-  }),
-  email: Joi.string().email().required().messages({
-    "any.required": "email_is_required",
-    "string.email": "email_is_invalid",
-  }),
-  password: Joi.string().min(6).required().messages({
-    "any.required": "password_is_required",
-    "string.min": "password_is_min_6_characters",
-  }),
+export const registerSchema = z.object({
+  firstname: z
+    .string({
+      required_error: "firstname_is_required",
+      invalid_type_error: "firstname_is_required",
+    })
+    .min(1, { message: "firstname_is_required" }),
+  surname: z
+    .string({
+      required_error: "surname_is_required",
+      invalid_type_error: "surname_is_required",
+    })
+    .min(1, { message: "surname_is_required" }),
+  email: z
+    .string({
+      required_error: "email_is_required",
+      invalid_type_error: "email_is_invalid",
+    })
+    .email({ message: "email_is_invalid" })
+    .nonempty({ message: "email_is_required" }),
+  password: z
+    .string({
+      required_error: "password_is_required",
+      invalid_type_error: "password_is_required",
+    })
+    .min(6, { message: "password_is_min_6_characters" })
+    .nonempty({ message: "password_is_required" }),
 });
 
-export const loginSchema = Joi.object({
-  email: Joi.string().email().required().messages({
-    "any.required": "email_is_required",
-    "string.email": "email_is_invalid",
-  }),
-  password: Joi.string().required().empty().messages({
-    "any.required": "password_is_required",
-    "string.empty": "password_is_required",
-  }),
+export const loginSchema = z.object({
+  email: z
+    .string({
+      required_error: "email_is_required",
+      invalid_type_error: "email_is_invalid",
+    })
+    .email({ message: "email_is_invalid" })
+    .nonempty({ message: "email_is_required" }),
+  password: z
+    .string({
+      required_error: "password_is_required",
+      invalid_type_error: "password_is_required",
+    })
+    .min(1, { message: "password_is_required" }),
 });
 
-export const loginWithRefreshTokenSchema = Joi.object({
-  refreshToken: Joi.string().required().empty().messages({
-    "string.empty": "refresh_token_is_required",
-    "any.required": "refresh_token_is_required",
-  }),
+export const loginWithRefreshTokenSchema = z.object({
+  refreshToken: z
+    .string({
+      required_error: "refresh_token_is_required",
+      invalid_type_error: "refresh_token_is_required",
+    })
+    .min(1, { message: "refresh_token_is_required" }),
 });
 
-export const revokeRefreshTokenSchema = Joi.object({
-  refreshToken: Joi.string().required().empty().messages({
-    "string.empty": "refresh_token_is_required",
-    "any.required": "refresh_token_is_required",
-  }),
+export const revokeRefreshTokenSchema = z.object({
+  refreshToken: z
+    .string({
+      required_error: "refresh_token_is_required",
+      invalid_type_error: "refresh_token_is_required",
+    })
+    .min(1, { message: "refresh_token_is_required" }),
 });

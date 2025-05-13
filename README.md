@@ -10,7 +10,7 @@
 - **Authorization**: Permission-based access control to restrict access to certain routes.
 - **Seeding**: Seed the database with initial data for development and testing.
 - **Testing**: Unit and integration tests using Jest for ensuring code quality and reliability.
-- **Validation**: Input validation using Joi to ensure data integrity.
+- **Validation**: Input validation using Zod to ensure data integrity.
 - **Rate Limiting**: Basic rate limiting to prevent abuse of the API.
 - **CORS**: Cross-Origin Resource Sharing (CORS) support for API access from different domains.
 - **Multi-Language Support**: Support for multiple languages using i18n for internationalization.
