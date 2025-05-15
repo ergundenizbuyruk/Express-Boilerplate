@@ -64,6 +64,9 @@ app.use((req: Request, res: Response, next: Function) => {
   const t = req.t;
   const err = new HttpError(t("not_found"), 404);
   next(err);
+
+
+  
 });
 
 app.use(errorHandler);
