@@ -9,7 +9,8 @@
     "start:dev": "tsx watch src/server.ts",
     "test": "jest",
     "swagger": "tsx src/swagger/swagger.ts",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .ts"
   },
   "dependencies": {
     "@prisma/client": "5.21.1",
@@ -27,18 +28,21 @@
     "zod": "3.24.4"
   },
   "devDependencies": {
+    "@eslint/js": "9.26.0",
     "@types/bcrypt": "5.0.2",
     "@types/cors": "2.8.18",
     "@types/express": "5.0.0",
     "@types/jsonwebtoken": "9.0.7",
     "@types/node": "22.7.8",
     "@types/swagger-ui-express": "4.1.6",
+    "eslint": "9.26.0",
     "jest": "29.7.0",
     "prettier": "3.5.3",
     "prisma": "5.21.1",
     "swagger-autogen": "2.23.7",
     "ts-jest": "29.3.2",
     "tsx": "4.19.1",
-    "typescript": "5.6.3"
+    "typescript": "5.6.3",
+    "typescript-eslint": "8.32.1"
   }
 }

@@ -3,27 +3,27 @@ import roleService from "../services/role-service/role.service";
 import asyncHandler from "express-async-handler";
 
 export const getAll = asyncHandler(async (req: Request, res: Response) => {
-  const users = await roleService.getAll();
+  const users = await roleService.getAll(req.t);
   res.status(users.statusCode).json(users);
 });
 
 export const get = asyncHandler(async (req: Request, res: Response) => {
-  const user = await roleService.get(req.params.id);
+  const user = await roleService.get(req.params.id, req.t);
   res.status(user.statusCode).json(user);
 });
 
 export const create = asyncHandler(async (req: Request, res: Response) => {
-  const newUser = await roleService.create(req.body);
+  const newUser = await roleService.create(req.body, req.t);
   res.status(newUser.statusCode).json(newUser);
 });
 
 export const update = asyncHandler(async (req: Request, res: Response) => {
-  const updatedUser = await roleService.update(req.params.id, req.body);
+  const updatedUser = await roleService.update(req.params.id, req.body, req.t);
   res.status(updatedUser.statusCode).json(updatedUser);
 });
 
 export const remove = asyncHandler(async (req: Request, res: Response) => {
-  const result = await roleService.remove(req.params.id);
+  const result = await roleService.remove(req.params.id, req.t);
   res.status(result.statusCode).json(result);
 });
 
