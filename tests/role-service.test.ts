@@ -1,10 +1,7 @@
 import { describe, it, expect } from "@jest/globals";
 import { Permission } from "../src/types/permission";
 import roleService from "../src/services/role-service/role.service";
-import {
-  RoleCreateDto,
-  RoleUpdateDto,
-} from "../src/services/role-service/role.dto";
+import { RoleCreateDto, RoleUpdateDto } from "../src/services/role-service/role.dto";
 
 describe("GET All Roles", () => {
   it("should return all roles", async () => {
@@ -25,7 +22,7 @@ describe("POST Create Role", () => {
   it("should create a new role", async () => {
     const newRole: RoleCreateDto = {
       name: newRoleName,
-      permissions: [newRolePermission],
+      permissions: [newRolePermission]
     };
     const resCreate = await roleService.create(newRole);
     expect(resCreate.statusCode).toBe(201);
@@ -51,7 +48,7 @@ describe("POST Create Role", () => {
   it("should update role", async () => {
     const updatedRole: RoleUpdateDto = {
       name: updatedRoleName,
-      permissions: [updatedRolePermission],
+      permissions: [updatedRolePermission]
     };
     const updateRes = await roleService.update(roleId, updatedRole);
     expect(updateRes.statusCode).toBe(200);

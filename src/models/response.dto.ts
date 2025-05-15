@@ -10,29 +10,23 @@ export interface ErrorDto {
   isShow: boolean;
 }
 
-export const successResponse = <T>(
-  data: T,
-  statusCode: number
-): ResponseDto<T> => {
+export const successResponse = <T>(data: T, statusCode: number): ResponseDto<T> => {
   return {
     data,
     statusCode,
     success: true,
-    error: null,
+    error: null
   };
 };
 
-export const errorResponse = <T>(
-  errors: string[],
-  statusCode: number
-): ResponseDto<T> => {
+export const errorResponse = <T>(errors: string[], statusCode: number): ResponseDto<T> => {
   return {
     data: null,
     statusCode,
     success: false,
     error: {
       errors,
-      isShow: true,
-    },
+      isShow: true
+    }
   };
 };

@@ -7,16 +7,12 @@ export async function syncPermissions() {
     .map(([name, id]) => ({ id: id as number, name }));
 
   const dbPermissions = await prisma.permission.findMany();
-  const dbPermissionIds = new Set(
-    dbPermissions.map((permission) => permission.id)
-  );
+  const dbPermissionIds = new Set(dbPermissions.map((permission) => permission.id));
 
-  const missingPermissions = enumPermissions.filter(
-    (permission) => !dbPermissionIds.has(permission.id)
-  );
+  const missingPermissions = enumPermissions.filter((permission) => !dbPermissionIds.has(permission.id));
 
   await prisma.permission.createMany({
-    data: missingPermissions,
+    data: missingPermissions
   });
 
   console.log("Permissions synced with the database.");

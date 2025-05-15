@@ -14,7 +14,7 @@ const seedAdminUserAndRole = async () => {
 
   const adminRoleFromDb = await prisma.role.findUnique({
     where: { id: adminRoleId },
-    include: { permissions: true },
+    include: { permissions: true }
   });
 
   if (!adminRoleFromDb) {
@@ -22,15 +22,15 @@ const seedAdminUserAndRole = async () => {
       data: {
         id: adminRoleId,
         name: adminRoleName,
-        permissions: { connect: allPermissions },
-      },
+        permissions: { connect: allPermissions }
+      }
     });
 
     console.log("Admin role created", adminRole);
   } else {
     const adminRole = await prisma.role.update({
       where: { id: adminRoleId },
-      data: { permissions: { connect: allPermissions } },
+      data: { permissions: { connect: allPermissions } }
     });
 
     console.log("Admin role updated.", adminRole);
@@ -38,7 +38,7 @@ const seedAdminUserAndRole = async () => {
 
   const adminUserFromDb = await prisma.user.findUnique({
     where: { id: adminUserId },
-    include: { roles: true },
+    include: { roles: true }
   });
 
   if (!adminUserFromDb) {
@@ -49,8 +49,8 @@ const seedAdminUserAndRole = async () => {
         surname: adminUserName,
         email: adminEmail,
         password: bcrypt.hashSync(adminPassword, 10),
-        roles: { connect: { id: adminRoleId } },
-      },
+        roles: { connect: { id: adminRoleId } }
+      }
     });
 
     console.log("Admin user created", adminUser);

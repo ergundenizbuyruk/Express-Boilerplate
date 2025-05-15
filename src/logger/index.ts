@@ -10,10 +10,7 @@ const logFormat = printf(({ timestamp, level, message }) => {
 const logger = createLogger({
   level: "info",
   format: combine(timestamp(), logFormat),
-  transports: [
-    new transports.File({ filename: "logs/combined.log" }),
-    new transports.Console(),
-  ],
+  transports: [new transports.File({ filename: "logs/combined.log" }), new transports.Console()]
 });
 
 logger.on("data", async (log) => {
@@ -23,8 +20,8 @@ logger.on("data", async (log) => {
         data: {
           level: log.level,
           message: log.message,
-          meta: log.meta || {},
-        },
+          meta: log.meta || {}
+        }
       });
     } catch (err) {
       console.error("Error saving log to DB:", err);

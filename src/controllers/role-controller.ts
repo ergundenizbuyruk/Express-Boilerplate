@@ -32,5 +32,5 @@ export default {
   get,
   create,
   update,
-  remove,
+  remove
 };

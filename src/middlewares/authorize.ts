@@ -19,9 +19,7 @@ export const authorize = (requiredPermissions: Permission[]) => {
       return;
     }
 
-    const hasPermission = requiredPermissions.every((permission) =>
-      user.permissions.includes(permission)
-    );
+    const hasPermission = requiredPermissions.every((permission) => user.permissions.includes(permission));
 
     if (!hasPermission) {
       const response = errorResponse([t("forbidden_message")], 403);

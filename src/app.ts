@@ -16,17 +16,14 @@ import i18n from "./i18n";
 const allowedOrigins = ["http://localhost:3000"];
 
 const corsOptions: CorsOptions = {
-  origin: function (
-    origin: string | undefined,
-    callback: (err: Error | null, allow?: boolean) => void
-  ) {
+  origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error("CORS policy violation"));
     }
   },
-  credentials: true,
+  credentials: true
 };
 
 const limiter = rateLimit({
@@ -38,7 +35,7 @@ const limiter = rateLimit({
   handler: (req: Request, res: Response) => {
     const t = req.t;
     res.status(429).json(errorResponse([t("too_many_requests")], 429));
-  },
+  }
 });
 
 const app = express();
